@@ -1,0 +1,7 @@
+name = "tiff-to-jpeg-worker"
+main = "src/edge/worker.ts"
+compatibility_date = "2025-10-01"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
