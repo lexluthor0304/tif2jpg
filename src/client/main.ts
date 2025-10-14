@@ -123,6 +123,15 @@ applyTranslations(state.locale);
 const worker = new Worker(new URL('./decode.worker.ts', import.meta.url), { type: 'module' });
 worker.addEventListener('message', handleWorkerMessage);
 
+function openFilePicker() {
+  const input = ui.fileInput as HTMLInputElement & { showPicker?: () => void };
+  if (typeof input.showPicker === 'function') {
+    input.showPicker();
+  } else {
+    input.click();
+  }
+}
+
 ui.qualityRange.addEventListener('input', () => {
   ui.qualityValue.textContent = ui.qualityRange.value;
 });
@@ -137,11 +146,25 @@ ui.pageRadios.forEach((radio) => {
   });
 });
 
-ui.selectFiles.addEventListener('click', () => ui.fileInput.click());
+ui.selectFiles.addEventListener('click', () => openFilePicker());
 ui.fileInput.addEventListener('change', () => {
   if (ui.fileInput.files) {
     enqueueFiles(Array.from(ui.fileInput.files));
     ui.fileInput.value = '';
+  }
+});
+
+ui.dropZone.addEventListener('click', (event) => {
+  if (event.target instanceof HTMLButtonElement) {
+    return;
+  }
+  openFilePicker();
+});
+
+ui.dropZone.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    openFilePicker();
   }
 });
 
