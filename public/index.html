@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TIFF → JPEG (Client-side)</title>
+    <meta name="description" content="Convert TIFF files to JPEG entirely in your browser. Files never leave your device." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1 data-i18n-key="title">TIFF → JPEG (Client-side)</h1>
+      <p class="privacy" data-i18n-key="privacy">Files never leave your device.</p>
+    </header>
+
+    <main class="app-main">
+      <section class="uploader" aria-labelledby="upload-title">
+        <h2 id="upload-title" data-i18n-key="uploadTitle">Drop TIFF files here or select from device</h2>
+        <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-describedby="upload-help">
+          <p data-i18n-key="dropInstruction">Drag &amp; drop your TIFFs</p>
+          <p id="upload-help" data-i18n-key="dropHelp">You can add multiple files at once.</p>
+          <button id="select-files" type="button" class="primary" data-i18n-key="selectFiles">Select files</button>
+          <input id="file-input" class="visually-hidden" type="file" accept="image/tiff,.tif,.tiff" multiple />
+        </div>
+      </section>
+
+      <section class="options" aria-labelledby="options-title">
+        <h2 id="options-title" data-i18n-key="optionsTitle">Conversion options</h2>
+        <form id="options-form">
+          <label>
+            <span data-i18n-key="quality">JPEG Quality</span>
+            <input id="quality" name="quality" type="range" min="60" max="95" value="85" />
+            <output for="quality" id="quality-value">85</output>
+          </label>
+          <label>
+            <span data-i18n-key="maxDimension">Max longer side (px)</span>
+            <select id="max-dimension" name="maxDimension">
+              <option value="" data-i18n-key="originalSize">Original size</option>
+              <option value="1024">1024</option>
+              <option value="2048">2048</option>
+              <option value="4096">4096</option>
+            </select>
+          </label>
+          <label class="switch">
+            <input id="strip-metadata" name="stripMetadata" type="checkbox" checked />
+            <span data-i18n-key="stripMetadata">Strip metadata</span>
+          </label>
+          <div class="page-selector" aria-live="polite">
+            <span data-i18n-key="pageSelection">Pages</span>
+            <label>
+              <input type="radio" name="page-mode" value="all" checked />
+              <span data-i18n-key="allPages">All pages</span>
+            </label>
+            <label>
+              <input type="radio" name="page-mode" value="custom" />
+              <span data-i18n-key="selectedPages">Selected pages</span>
+            </label>
+            <input id="page-input" type="text" placeholder="1,3-5" aria-label="Page list" disabled />
+            <p class="hint" data-i18n-key="pageHint">Use commas and ranges (e.g., 1,3-5)</p>
+          </div>
+          <button id="convert" class="primary" type="button" data-i18n-key="convert">Convert</button>
+        </form>
+      </section>
+
+      <section class="queue" aria-labelledby="queue-title">
+        <h2 id="queue-title" data-i18n-key="queueTitle">Conversion queue</h2>
+        <ul id="file-list" class="file-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="results" aria-labelledby="results-title">
+        <h2 id="results-title" data-i18n-key="resultsTitle">Results</h2>
+        <button id="download-zip" class="secondary" type="button" disabled data-i18n-key="downloadZip">Download all as ZIP</button>
+        <div id="results-grid" class="results-grid"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p data-i18n-key="footerNote">Powered by Cloudflare Workers + in-browser processing.</p>
+    </footer>
+
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>
