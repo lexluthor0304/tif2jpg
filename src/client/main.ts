@@ -126,10 +126,14 @@ worker.addEventListener('message', handleWorkerMessage);
 function openFilePicker() {
   const input = ui.fileInput as HTMLInputElement & { showPicker?: () => void };
   if (typeof input.showPicker === 'function') {
-    input.showPicker();
-  } else {
-    input.click();
+    try {
+      input.showPicker();
+      return;
+    } catch (error) {
+      // Some browsers expose showPicker but throw when the input is visually hidden.
+    }
   }
+  input.click();
 }
 
 ui.qualityRange.addEventListener('input', () => {
