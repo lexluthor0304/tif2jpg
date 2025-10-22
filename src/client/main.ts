@@ -216,6 +216,7 @@ ui.downloadZip.addEventListener('click', async () => {
 });
 
 function enqueueFiles(files: File[]) {
+  let added = false;
   for (const file of files) {
     if (!/tiff?/i.test(file.type) && !/\.tiff?$/i.test(file.name)) {
       continue;
@@ -234,6 +235,10 @@ function enqueueFiles(files: File[]) {
     state.tasks.set(id, task);
     state.queue.push(id);
     ui.fileList.appendChild(card.root);
+    added = true;
+  }
+  if (added && !state.current) {
+    startQueue();
   }
 }
 
