@@ -1,4 +1,4 @@
-name = "tiff-to-jpeg-worker"
+name = "tif2jpg"
 main = "src/edge/worker.ts"
 compatibility_date = "2025-10-01"
 
